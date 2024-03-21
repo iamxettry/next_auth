@@ -1,8 +1,9 @@
+import { LoginFrom } from '@/components/auth/LoginFrom'
 import React from 'react'
 
 const Login = () => {
   return (
-    <div>Login</div>
+    <LoginFrom/>
   )
 }
 
