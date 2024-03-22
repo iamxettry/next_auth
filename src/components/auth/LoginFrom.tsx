@@ -1,7 +1,7 @@
 "use client"
 import React, { useState, useTransition } from 'react'
 import { CardWrapper } from './CardWrapper'
-import { set, useForm } from 'react-hook-form'
+import {  useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form ,FormControl,FormField,FormItem,FormLabel,FormMessage} from '../ui/form'
 import * as z from 'zod'
@@ -11,7 +11,10 @@ import { Button } from '../ui/button'
 import { FormError } from '../form-error'
 import { FormSuccess } from '../form-success'
 import { login } from '@/actions/login'
+import { useSearchParams } from 'next/navigation'
 export const LoginFrom = () => {
+    const searchparams = useSearchParams()
+    const urlError= searchparams.get("error")==="OAuthAccountNotLinked"?"Email already in use with different provider":""
     const [err, setErr] = useState<string | undefined>("")
     const [success, setSuccess] = useState<string | undefined>("")
 
@@ -29,8 +32,8 @@ export const LoginFrom = () => {
         setSuccess("") 
         startTransition(()=>{
             login(data).then(data=>{
-                setErr(data.error)
-                setSuccess(data.success)
+                setErr(data?.error)
+                // setSuccess(data.success)
             })
         })
     }
@@ -71,7 +74,7 @@ export const LoginFrom = () => {
                 )} />
 
             </div>
-            <FormError message={err}/>
+            <FormError message={err || urlError}/>
             <FormSuccess message={success}/>
 
             <Button  disabled={isPending} type='submit' size='lg' variant='default' className='w-full'>Login In</Button>

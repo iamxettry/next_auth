@@ -6,8 +6,9 @@ const Setting =async () => {
   console.log(session);
   return (
     <div>
-      
-      <h1>setting</h1>
+
+      <h1>{JSON.stringify(session)}</h1>
+
       <form action={async ()=>{
         "use server"
         await signOut()
